@@ -19,7 +19,7 @@ export function getChannel(
   channelName: string = 'accomplishments'
 ): TextChannel {
   const channel = guild.channels.cache.find(
-    (channel) => channel.name === channelName
+    (channell) => channell.name === channelName
   );
 
   if (!channel || !(channel instanceof TextChannel)) {

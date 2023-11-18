@@ -13,6 +13,7 @@ async function fetchRandomGif() {
     const data = await response.json();
     return (data as any).data.images.original.url;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching GIF:', error);
     return null;
   }

@@ -1,11 +1,4 @@
-import {
-  Client,
-  GatewayIntentBits,
-  TextChannel,
-  Guild,
-  GuildMessageManager,
-  channelLink,
-} from 'discord.js';
+import { Client, GatewayIntentBits } from 'discord.js';
 
 export default () => {
   const client = new Client({
