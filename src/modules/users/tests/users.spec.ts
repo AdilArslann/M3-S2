@@ -20,7 +20,7 @@ afterEach(async () => {
 const userFactory = (
   overrides: Partial<Insertable<Users>> = {}
 ): Insertable<Users> => ({
-  username: 'John',
+  discordId: 'John',
   ...overrides,
 });
 
@@ -63,7 +63,7 @@ describe('GET', () => {
   it('does get all the users', async () => {
     const user2 = {
       ...userFactory(),
-      username: 'jeff',
+      discordId: 'jeff',
     };
 
     await supertest(app).post('/users').send(userFactory()).expect(201);
@@ -85,22 +85,22 @@ describe('GET', () => {
 });
 
 describe('PATCH', () => {
-  it('does patch username', async () => {
+  it('does patch discordId', async () => {
     const { body: user } = await supertest(app)
       .post('/users')
       .send(userFactory())
       .expect(201);
 
-    const updatedUsername = 'Jennifer';
+    const updateddiscordId = 'Jennifer';
     const { body: updatedUser } = await supertest(app)
       .patch(`/users/${user.id}`)
-      .send({ username: updatedUsername })
+      .send({ discordId: updateddiscordId })
       .expect(200);
 
-    expect(updatedUser.username).toEqual(updatedUsername);
+    expect(updatedUser.discordId).toEqual(updateddiscordId);
 
     const { body } = await supertest(app).get(`/users/${user.id}`).expect(200);
-    expect(body).toEqual(userMatcher({ username: updatedUsername }));
+    expect(body).toEqual(userMatcher({ discordId: updateddiscordId }));
   });
   it('throws error if user does not exist', async () => {
     await supertest(app).patch('/users/123456').expect(404);

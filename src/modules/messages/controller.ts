@@ -8,89 +8,85 @@ import type { Database } from '@/database';
 import sendMessage from '../discordBot/sendMessage';
 import buildUserRepository from '../users/repository';
 import buildSprintRepository from '../sprints/repository';
-import buildTemplateRepository from '../templates/repository';
-import { findOrFail } from './tools';
-import  fetchGif  from '../discordBot/fetchGif';
+import randomTemplate from './getRandomTemplate';
+import { findUser, findSprint } from './tools';
+import fetchGif from '../discordBot/fetchGif';
 import FetchGifError from '../discordBot/fetchGifError';
 import SendMessageError from '../discordBot/sendMessageError';
-
+import BadRequest from '@/utils/errors/BadRequest';
 
 export default (db: Database, discordClient: Client) => {
   const router = Router();
   const messages = buildRepository(db);
   const users = buildUserRepository(db);
   const sprints = buildSprintRepository(db);
-  const templates = buildTemplateRepository(db);
 
   router
     .route('/')
     .post(
       jsonRoute(async (req) => {
-        const userId = Number(req.body.userId);
-        const sprintId = Number(req.body.sprintId);
-
-        if (Number.isNaN(userId) || Number.isNaN(sprintId)) {
-          throw new Error('userId and sprintId must be numbers');
+        const { userId, sprintId } = schema.parseInsertable(req.body);
+        const user = await users.findById(userId);
+        if (!user) {
+          throw new BadRequest(`User with ID ${userId} does not exist`);
         }
-        const user = await users.find(({ eb }) => eb('id', '=', userId));
-        const sprint = await sprints.find(({ eb }) => eb('id', '=', sprintId));
-        const allTemplates = await templates.findAll();
-        const template =
-          allTemplates[Math.floor(Math.random() * allTemplates.length)];
-        try{
-        const gifURL = await fetchGif();
-        sendMessage(
-          discordClient,
-          user[0].discordId,
-          sprint[0].title,
-          template.content,
-          sprint[0].sprintCode,
-          gifURL
-        );
-        }catch(error){
+        const sprint = await sprints.findById(sprintId);
+        if (!sprint) {
+          throw new BadRequest(`Sprint with ID ${sprintId} does not exist`);
+        }
+
+        const template = await randomTemplate(db);
+        try {
+          const gifURL = await fetchGif();
+          sendMessage(
+            discordClient,
+            user.discordId,
+            sprint.title,
+            template.content,
+            sprint.sprintCode,
+            gifURL
+          );
+        } catch (error) {
           if (error instanceof FetchGifError) {
             throw new Error(error.message);
-          }else if (error instanceof SendMessageError) {
+          } else if (error instanceof SendMessageError) {
             throw new Error(error.message);
-          }else{
-            throw new Error("There was an error getting the gif and sending the message.");
+          } else {
+            throw new Error(
+              'There was an error getting the gif and sending the message.'
+            );
           }
         }
 
-        req.body.templateId = template.id;
-        const body = schema.parseInsertable(req.body);
+        const body = {
+          userId,
+          sprintId,
+          templateId: template.id,
+        };
         return messages.create(body);
       }, StatusCodes.CREATED)
     )
     .get(
       jsonRoute(async (req) => {
-        const username =
-          req.body.username !== undefined
-            ? String(req.body.username)
+        
+        const discordId =
+          req.body.discordId !== undefined
+            ? String(req.body.discordId)
             : undefined;
+
         const sprintCode =
           req.body.sprintCode !== undefined
             ? String(req.body.sprintCode)
             : undefined;
 
         if (sprintCode) {
-          const sprint = await findOrFail(
-            sprints,
-            'sprintCode',
-            sprintCode,
-            `No sprint found with code: ${sprintCode}`
-          );
-          return messages.find(({ eb }) => eb('sprintId', '=', sprint.id));
+          const sprintId = await findSprint(db, sprintCode);
+          return messages.find(({ eb }) => eb('sprintId', '=', sprintId));
         }
 
-        if (username) {
-          const user = await findOrFail(
-            users,
-            'username',
-            username,
-            `No user found with username: ${username}`
-          );
-          return messages.find(({ eb }) => eb('userId', '=', user.id));
+        if (discordId) {
+          const userId = await findUser(db, discordId);
+          return messages.find(({ eb }) => eb('userId', '=', userId));
         }
 
         return messages.findAll();

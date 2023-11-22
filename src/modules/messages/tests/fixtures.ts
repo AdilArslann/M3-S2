@@ -1,11 +1,11 @@
 export const users = [
   {
     id: 1,
-    username: 'jennifer',
+    discordId: 'jennifer',
   },
   {
     id: 2,
-    username: 'jeff',
+    discordId: 'jeff',
   },
 ];
 

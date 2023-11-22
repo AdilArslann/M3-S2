@@ -37,7 +37,7 @@ npm run generate-types
 
 ### Users
 - **id**: Unique identifier for users.
-- **username**: User's username (discord username).
+- **discordId**: User's discordId (discord discordId).
 
 ### Sprints
 - **id**: Unique identifier for sprints.
@@ -59,7 +59,7 @@ npm run generate-types
 ### `POST /`
 Creates a new user.
 
-- Request body should contain user data (username).
+- Request body should contain user data (discordId).
 - Returns a `201 Created` status code if successful.
 
 ### `GET /`
@@ -81,7 +81,7 @@ Deletes a specific user by ID.
 Updates a specific user by ID.
 
 - The user ID should be included in the URL.
-- Request body should contain the updated user data (the new username).
+- Request body should contain the updated user data (the new discordId).
 - Throws a `UserNotFound` error if the user does not exist.
 
 ### `PUT /:id`
@@ -167,8 +167,8 @@ Creates a new message.
 Fetches messages.
 
 - If `sprintCode` is provided in the request body, it fetches messages related to the sprint with that code.
-- If `username` is provided in the request body, it fetches messages related to the user with that username.
-- If neither `sprintCode` nor `username` is provided, it fetches all messages.
+- If `discordId` is provided in the request body, it fetches messages related to the user with that discordId.
+- If neither `sprintCode` nor `discordId` is provided, it fetches all messages.
 
 ### `GET /:id`, `DELETE /:id`, `PATCH /:id`, `PUT /:id`
 These routes are not supported.

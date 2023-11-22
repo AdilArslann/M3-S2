@@ -5,7 +5,7 @@ import type { Users } from '@/database';
 type Record = Users;
 const schema = z.object({
   id: z.coerce.number().int().positive(),
-  discordId: z.string().min(2).max(32),
+  discordId: z.string().min(2).max(255),
 });
 
 // parsers for validating and coercing data

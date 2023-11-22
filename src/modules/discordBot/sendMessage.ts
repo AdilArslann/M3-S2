@@ -4,7 +4,7 @@ import SendMessageError from './sendMessageError';
 
 export default async (
   discordClient: Client,
-  username: string,
+  discordId: string,
   sprint: string,
   template: string,
   sprintCode: string,
@@ -13,8 +13,7 @@ export default async (
   try{
   const guild = utils.getGuild(discordClient);
   const channel = utils.getChannel(guild);
-  // const taggedUser = `<@${username}>`; needs userId to tag user, will change it later
-  channel.send(`${username} has just completed ${sprint} (${sprintCode})
+  channel.send(`<@${discordId}> has just completed ${sprint} (${sprintCode})
 ${template}
 ${gifURL}`);
   }catch(error){
