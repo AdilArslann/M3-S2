@@ -5,11 +5,15 @@ import * as schema from './schema';
 import buildRepository from './repository';
 import { jsonRoute, unsupportedRoute } from '@/utils/middleware';
 import type { Database } from '@/database';
-import sendMessage from './sendMessage';
+import sendMessage from '../discordBot/sendMessage';
 import buildUserRepository from '../users/repository';
 import buildSprintRepository from '../sprints/repository';
 import buildTemplateRepository from '../templates/repository';
 import { findOrFail } from './tools';
+import  fetchGif  from '../discordBot/fetchGif';
+import FetchGifError from '../discordBot/fetchGifError';
+import SendMessageError from '../discordBot/sendMessageError';
+
 
 export default (db: Database, discordClient: Client) => {
   const router = Router();
@@ -33,13 +37,25 @@ export default (db: Database, discordClient: Client) => {
         const allTemplates = await templates.findAll();
         const template =
           allTemplates[Math.floor(Math.random() * allTemplates.length)];
+        try{
+        const gifURL = await fetchGif();
         sendMessage(
           discordClient,
           user[0].username,
           sprint[0].title,
           template.content,
-          sprint[0].sprintCode
+          sprint[0].sprintCode,
+          gifURL
         );
+        }catch(error){
+          if (error instanceof FetchGifError) {
+            throw new Error(error.message);
+          }else if (error instanceof SendMessageError) {
+            throw new Error(error.message);
+          }else{
+            throw new Error("There was an error getting the gif and sending the message.");
+          }
+        }
 
         req.body.templateId = template.id;
         const body = schema.parseInsertable(req.body);
