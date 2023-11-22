@@ -20,7 +20,7 @@ afterEach(async () => {
 const userFactory = (
   overrides: Partial<Insertable<Users>> = {}
 ): Insertable<Users> => ({
-  discordId: 'John',
+  discordId: '847128947891',
   ...overrides,
 });
 
@@ -63,7 +63,7 @@ describe('GET', () => {
   it('does get all the users', async () => {
     const user2 = {
       ...userFactory(),
-      discordId: 'jeff',
+      discordId: '889529572983',
     };
 
     await supertest(app).post('/users').send(userFactory()).expect(201);
@@ -91,7 +91,7 @@ describe('PATCH', () => {
       .send(userFactory())
       .expect(201);
 
-    const updateddiscordId = 'Jennifer';
+    const updateddiscordId = '84782785784';
     const { body: updatedUser } = await supertest(app)
       .patch(`/users/${user.id}`)
       .send({ discordId: updateddiscordId })
