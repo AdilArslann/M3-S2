@@ -37,7 +37,7 @@ npm run generate-types
 
 ### Users
 - **id**: Unique identifier for users.
-- **discordId**: User's discordId (discord discordId).
+- **discord_id**: User's discordId (discord discordId).
 
 ### Sprints
 - **id**: Unique identifier for sprints.
