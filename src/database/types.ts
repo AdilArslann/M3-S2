@@ -24,7 +24,7 @@ export interface Templates {
 
 export interface Users {
   id: Generated<number>;
-  userId: string;
+  discordId: string;
 }
 
 export interface DB {
