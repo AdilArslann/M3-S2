@@ -1,9 +1,8 @@
-import type { Insertable } from 'kysely';
 import { expect } from 'vitest';
 import createTestDatabase from '@tests/utils/createTestDatabase';
 import { createFor, selectAllFor } from '@tests/utils/records';
 import buildRepository from '../repository';
-import type { Users } from '@/database';
+import { userFactory, userMatcher } from './utils';
 
 const db = await createTestDatabase();
 const repository = buildRepository(db);
@@ -14,20 +13,6 @@ afterEach(async () => {
   await db.deleteFrom('users').execute();
 });
 
-// Creates a function to create a new user that can be overridden
-const userFactory = (
-  overrides: Partial<Insertable<Users>> = {}
-): Insertable<Users> => ({
-  discordId: '8912798471982',
-  ...overrides,
-});
-
-// Creates a matcher for the user that checks for all properties
-const userMatcher = (overrides: Partial<Insertable<Users>> = {}) => ({
-  id: expect.any(Number),
-  ...overrides, // for id
-  ...userFactory(overrides),
-});
 
 describe('findById', () => {
   it('should return a user by id', async () => {

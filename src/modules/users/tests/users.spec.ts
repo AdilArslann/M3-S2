@@ -1,9 +1,9 @@
 import supertest from 'supertest';
 import createTestDatabase from '@tests/utils/createTestDatabase';
 import { selectAllFor } from '@tests/utils/records';
-import { Insertable } from 'kysely';
 import createApp from '@/app';
-import { Users } from '@/database';
+import { userFactory, userMatcher } from './utils';
+
 
 // Creates a test database and passes it to the app
 const db = await createTestDatabase();
@@ -14,21 +14,6 @@ const selectUsers = selectAllFor(db, 'users');
 // Deletes all users from the database after each test
 afterEach(async () => {
   await db.deleteFrom('users').execute();
-});
-
-// Creates a function to create a new user that can be overridden
-const userFactory = (
-  overrides: Partial<Insertable<Users>> = {}
-): Insertable<Users> => ({
-  discordId: '847128947891',
-  ...overrides,
-});
-
-// Creates a matcher for the user that checks for all properties
-const userMatcher = (overrides: Partial<Insertable<Users>> = {}) => ({
-  id: expect.any(Number),
-  ...overrides, // for id
-  ...userFactory(overrides),
 });
 
 describe('POST', () => {
