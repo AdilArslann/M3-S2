@@ -4,7 +4,7 @@ import buildRepository from './repository';
 import * as schema from './schema';
 import { jsonRoute, unsupportedRoute } from '@/utils/middleware';
 import type { Database } from '@/database';
-import NotFound from '@/utils/errors/NotFound';
+import { TemplateNotFound } from './errors';
 
 export default (db: Database) => {
   const router = Router();
@@ -29,7 +29,7 @@ export default (db: Database) => {
         const template = await templates.findById(id);
 
         if (!template) {
-          throw new NotFound('Template not found');
+          throw new TemplateNotFound();
         }
 
         return template;
@@ -41,7 +41,7 @@ export default (db: Database) => {
         const template = await templates.findById(id);
 
         if (!template) {
-          throw new NotFound('Template not found');
+          throw new TemplateNotFound();
         }
 
         await templates.remove(template.id);
@@ -53,7 +53,7 @@ export default (db: Database) => {
         const template = await templates.findById(id);
 
         if (!template) {
-          throw new NotFound('Template not found');
+          throw new TemplateNotFound();
         }
 
         const body = schema.parsePartial(req.body);
