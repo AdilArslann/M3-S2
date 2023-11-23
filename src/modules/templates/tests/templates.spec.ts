@@ -1,9 +1,9 @@
 import supertest from 'supertest';
 import createTestDatabase from '@tests/utils/createTestDatabase';
 import { selectAllFor } from '@tests/utils/records';
-import { Insertable } from 'kysely';
+import { templateFactory, templateMatcher } from './utils';
 import createApp from '@/app';
-import { Templates } from '@/database';
+
 
 const db = await createTestDatabase();
 const app = createApp(db);
@@ -14,18 +14,6 @@ afterEach(async () => {
   await db.deleteFrom('templates').execute();
 });
 
-const templateFactory = (
-  overrides: Partial<Insertable<Templates>> = {}
-): Insertable<Templates> => ({
-  content: 'YOU DID IT, YOU SON OF A GUN YOU DID IT!!',
-  ...overrides,
-});
-
-const templateMatcher = (overrides: Partial<Insertable<Templates>> = {}) => ({
-  id: expect.any(Number),
-  ...overrides,
-  ...templateFactory(overrides),
-});
 
 describe('POST', () => {
   it('should allow creating a new template', async () => {

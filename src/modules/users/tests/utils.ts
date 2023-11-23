@@ -15,7 +15,7 @@ export const userFactory = (
 
 export const userFactoryFull = (
   overrides: Partial<Insertable<Users>> = {}
-):Users => ({
+):Insertable<Users> => ({
   id: 2,
   ...userFactory(overrides),
 });
