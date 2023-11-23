@@ -104,6 +104,9 @@ describe('remove', () => {
 
     const removedTemplate = await repository.remove(template.id);
     expect(removedTemplate).toEqual(templateMatcher());
+
+    const templatesInDatabase = await selectTemplates();
+    expect(templatesInDatabase).toEqual([]);
   });
 
   it('should return undefined if template does not exist', async () => {

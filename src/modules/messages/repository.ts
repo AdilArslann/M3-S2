@@ -78,7 +78,7 @@ async function assertRelationshipsExist(
       .where('id', '=', userId)
       .executeTakeFirst();
     if (!user) {
-      throw new BadRequest(`user with ${userId} does not exist`);
+      throw new BadRequest(`user with ID ${userId} does not exist`);
     }
   }
   if (sprintId) {
@@ -88,7 +88,7 @@ async function assertRelationshipsExist(
       .where('id', '=', sprintId)
       .executeTakeFirst();
     if (!sprint) {
-      throw new BadRequest(`sprint with ${sprintId} does not exist`);
+      throw new BadRequest(`sprint with ID ${sprintId} does not exist`);
     }
   }
   if (templateId) {
