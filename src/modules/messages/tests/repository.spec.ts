@@ -1,27 +1,27 @@
-import { expect } from "vitest";
-import createTestDatabase from "@tests/utils/createTestDatabase";
-import { createFor, selectAllFor } from "@tests/utils/records";
-import buildRepository from "../repository";
-import { messageFactory, messageMatcher } from "./utils";
-import {users, sprints, templates} from './fixtures'
+import { expect } from 'vitest';
+import createTestDatabase from '@tests/utils/createTestDatabase';
+import { createFor, selectAllFor } from '@tests/utils/records';
+import buildRepository from '../repository';
+import { messageFactory, messageMatcher } from './utils';
+import { users, sprints, templates } from './fixtures';
 
 const db = await createTestDatabase();
 const repository = buildRepository(db);
-const createMessages = createFor(db, "messages");
-const selectMessages = selectAllFor(db, "messages");
-const createUsers = createFor(db, "users");
-const createSprints = createFor(db, "sprints");
-const createTemplates = createFor(db, "templates");
+const createMessages = createFor(db, 'messages');
+const selectMessages = selectAllFor(db, 'messages');
+const createUsers = createFor(db, 'users');
+const createSprints = createFor(db, 'sprints');
+const createTemplates = createFor(db, 'templates');
 
 afterEach(async () => {
-  await db.deleteFrom("messages").execute();
-  await db.deleteFrom("users").execute();
-  await db.deleteFrom("sprints").execute();
-  await db.deleteFrom("templates").execute();
+  await db.deleteFrom('messages').execute();
+  await db.deleteFrom('users').execute();
+  await db.deleteFrom('sprints').execute();
+  await db.deleteFrom('templates').execute();
 });
 
-describe("findById", () => {
-  it("should return a message by id", async () => {
+describe('findById', () => {
+  it('should return a message by id', async () => {
     const [user] = await createUsers(users);
     const [sprint] = await createSprints(sprints);
     const [template] = await createTemplates(templates);
@@ -36,15 +36,15 @@ describe("findById", () => {
 
     expect(result).toEqual(messageMatcher(message));
   });
-  it("should return undefined if the message does not exist", async () => {
+  it('should return undefined if the message does not exist', async () => {
     const result = await repository.findById(123456);
 
     expect(result).toBeUndefined();
   });
 });
 
-describe("findAll", () => {
-  it("should return all messages", async () => {
+describe('findAll', () => {
+  it('should return all messages', async () => {
     const [user, user2] = await createUsers(users);
     const [sprint, sprint2] = await createSprints(sprints);
     const [template, template2] = await createTemplates(templates);
@@ -65,15 +65,12 @@ describe("findAll", () => {
 
     const result = await repository.findAll();
 
-    expect(result).toEqual([
-      messageMatcher(message),
-      messageMatcher(message2),
-    ]);
+    expect(result).toEqual([messageMatcher(message), messageMatcher(message2)]);
   });
 });
 
-describe("create", () => {
-  it("should create a message with messageFactory", async () => {
+describe('create', () => {
+  it('should create a message with messageFactory', async () => {
     const [user] = await createUsers(users);
     const [sprint] = await createSprints(sprints);
     const [template] = await createTemplates(templates);
@@ -88,8 +85,8 @@ describe("create", () => {
 
     const messagesInDatabase = await selectMessages();
     expect(messagesInDatabase).toEqual([messageMatcher()]);
-  })
-  it("should create a message without messageFactory", async () => {
+  });
+  it('should create a message without messageFactory', async () => {
     const [user] = await createUsers(users);
     const [sprint] = await createSprints(sprints);
     const [template] = await createTemplates(templates);
@@ -108,11 +105,11 @@ describe("create", () => {
 
     const messagesInDatabase = await selectMessages();
     expect(messagesInDatabase).toEqual([message]);
-  })
+  });
 });
 
-describe("update", () => {
-  it("should update a message", async () => {
+describe('update', () => {
+  it('should update a message', async () => {
     const [user, user2] = await createUsers(users);
     const [sprint] = await createSprints(sprints);
     const [template] = await createTemplates(templates);
@@ -134,7 +131,7 @@ describe("update", () => {
     );
   });
 
-  it("should return the original message if there is no changes", async () => {
+  it('should return the original message if there is no changes', async () => {
     const [user] = await createUsers(users);
     const [sprint] = await createSprints(sprints);
     const [template] = await createTemplates(templates);
@@ -149,18 +146,18 @@ describe("update", () => {
 
     expect(updatedMessage).toMatchObject(messageMatcher());
   });
-  it("should return undefined if the message does not exist", async () => {
+  it('should return undefined if the message does not exist', async () => {
     const [user] = await createUsers(users);
     const updatedMessage = await repository.update(123456, {
       userId: user.id,
     });
 
     expect(updatedMessage).toBeUndefined();
-  })
+  });
 });
 
-describe("remove", () => {
-  it("should remove the message", async () => {
+describe('remove', () => {
+  it('should remove the message', async () => {
     const [user] = await createUsers(users);
     const [sprint] = await createSprints(sprints);
     const [template] = await createTemplates(templates);
@@ -176,9 +173,9 @@ describe("remove", () => {
 
     const messagesInDatabase = await selectMessages();
     expect(messagesInDatabase).toEqual([]);
-  })
-  it("should return undefined if the message does not exist", async () => {
+  });
+  it('should return undefined if the message does not exist', async () => {
     const removedMessage = await repository.remove(123456);
     expect(removedMessage).toBeUndefined();
-  })
+  });
 });

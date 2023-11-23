@@ -11,7 +11,6 @@ const schema = z.object({
 
 const insertable = schema.omit({
   id: true,
-  templateId: true,
 });
 
 const updateable = insertable

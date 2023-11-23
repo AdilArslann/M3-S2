@@ -1,7 +1,6 @@
 import { Insertable } from 'kysely';
 import { Sprints } from '@/database';
 
-
 export const sprintFactory = (
   overrides: Partial<Insertable<Sprints>> = {}
 ): Insertable<Sprints> => ({
@@ -12,12 +11,14 @@ export const sprintFactory = (
 
 export const sprintFactoryFull = (
   overrides: Partial<Insertable<Sprints>> = {}
-):Insertable<Sprints> => ({
+): Insertable<Sprints> => ({
   id: 1,
   ...sprintFactory(overrides),
-})
+});
 
-export const sprintMatcher = (overrides: Partial<Insertable<Sprints>> = {}) => ({
+export const sprintMatcher = (
+  overrides: Partial<Insertable<Sprints>> = {}
+) => ({
   id: expect.any(Number),
   ...overrides,
   ...sprintFactory(overrides),

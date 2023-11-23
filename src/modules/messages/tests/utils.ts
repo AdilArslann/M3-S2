@@ -2,7 +2,6 @@ import { expect } from 'vitest';
 import { Insertable } from 'kysely';
 import { Messages } from '@/database';
 
-
 export const messageFactory = (
   overrides: Partial<Insertable<Messages>> = {}
 ): Insertable<Messages> => ({

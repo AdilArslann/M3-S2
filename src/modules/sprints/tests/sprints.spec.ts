@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import createTestDatabase from '@tests/utils/createTestDatabase';
 import { selectAllFor } from '@tests/utils/records';
 import createApp from '@/app';
-import {sprintFactory, sprintMatcher} from './utils';
+import { sprintFactory, sprintMatcher } from './utils';
 
 const db = await createTestDatabase();
 const app = createApp(db);
@@ -11,7 +11,6 @@ const selectSprints = selectAllFor(db, 'sprints');
 afterEach(async () => {
   await db.deleteFrom('sprints').execute();
 });
-
 
 describe('POST', () => {
   it('should allow creating a new sprint', async () => {

@@ -25,7 +25,11 @@ export default (db: Database, discordClient: Client) => {
     .route('/')
     .post(
       jsonRoute(async (req) => {
-        const { userId, sprintId } = schema.parseInsertable(req.body);
+        const template = await randomTemplate(db);
+        req.body.templateId = template.id;
+        const { userId, sprintId, templateId } = schema.parseInsertable(
+          req.body
+        );
         const user = await users.findById(userId);
         if (!user) {
           throw new BadRequest(`User with ID ${userId} does not exist`);
@@ -35,7 +39,6 @@ export default (db: Database, discordClient: Client) => {
           throw new BadRequest(`Sprint with ID ${sprintId} does not exist`);
         }
 
-        const template = await randomTemplate(db);
         try {
           const gifURL = await fetchGif();
           sendMessage(
@@ -61,7 +64,7 @@ export default (db: Database, discordClient: Client) => {
         const body = {
           userId,
           sprintId,
-          templateId: template.id,
+          templateId,
         };
         return messages.create(body);
       }, StatusCodes.CREATED)
@@ -69,13 +72,13 @@ export default (db: Database, discordClient: Client) => {
     .get(
       jsonRoute(async (req) => {
         const discordId =
-          req.body.discordId !== undefined
-            ? String(req.body.discordId)
+          req.query.discordId !== undefined
+            ? String(req.query.discordId)
             : undefined;
 
         const sprintCode =
-          req.body.sprintCode !== undefined
-            ? String(req.body.sprintCode)
+          req.query.sprintCode !== undefined
+            ? String(req.query.sprintCode)
             : undefined;
 
         if (sprintCode) {
