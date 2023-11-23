@@ -1,12 +1,12 @@
 import { test, vi } from 'vitest';
 import { Client } from 'discord.js';
-import {sendMessage} from './sendMessage';
+import { sendMessage } from './sendMessage';
 import { createApp } from './app'; // import your express app
 import { createTestDatabase, createFor, selectAllFor } from './db'; // import your db utilities
 import fixtures from './fixtures'; // import your fixtures
 
 vi.mock('sendMessage', () => ({
-    sendMessage: test.fn(),
+  sendMessage: test.fn(),
 }));
 
 let db;
@@ -36,12 +36,10 @@ test.afterEach(async () => {
 });
 
 test('POST / should create a new message', async ({ fetch }) => {
-  const res = await fetch(app)
-    .post('/')
-    .send({
-      userId: 1,
-      sprintId: 1
-    });
+  const res = await fetch(app).post('/').send({
+    userId: 1,
+    sprintId: 1,
+  });
 
   expect(res.status).toEqual(201);
   // Add your own assertions based on the response body

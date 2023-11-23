@@ -13,7 +13,6 @@ afterEach(async () => {
   await db.deleteFrom('users').execute();
 });
 
-
 describe('findById', () => {
   it('should return a user by id', async () => {
     const [user] = await createUsers({ discordId: '721478124787' });
@@ -87,25 +86,28 @@ describe('update', () => {
 
     expect(updatedUser).toMatchObject(userMatcher());
   });
-  it('should return undefined if user was not found', async () =>{
+  it('should return undefined if user was not found', async () => {
     const updatedUser = await repository.update(48772, {
-      discordId: "48488448",
+      discordId: '48488448',
     });
 
     expect(updatedUser).toBeUndefined();
-  })
+  });
 });
 
-describe('remove', () =>{
+describe('remove', () => {
   it('should remove a user', async () => {
     const [user] = await createUsers(userFactory());
 
     const removedUser = await repository.remove(user.id);
-    
+
     expect(removedUser).toEqual(userMatcher());
+
+    const usersInDatabase = await selectUsers();
+    expect(usersInDatabase).toEqual([]);
   });
-  it('should return undefined if user does not exist', async () =>{
+  it('should return undefined if user does not exist', async () => {
     const removedUser = await repository.remove(482194);
     expect(removedUser).toBeUndefined();
-  })
-})
+  });
+});

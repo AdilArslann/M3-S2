@@ -1,9 +1,8 @@
 import supertest from 'supertest';
 import createTestDatabase from '@tests/utils/createTestDatabase';
 import { selectAllFor } from '@tests/utils/records';
-import { Insertable } from 'kysely';
 import createApp from '@/app';
-import { Sprints } from '@/database';
+import {sprintFactory, sprintMatcher} from './utils';
 
 const db = await createTestDatabase();
 const app = createApp(db);
@@ -13,19 +12,6 @@ afterEach(async () => {
   await db.deleteFrom('sprints').execute();
 });
 
-const sprintFactory = (
-  overrides: Partial<Insertable<Sprints>> = {}
-): Insertable<Sprints> => ({
-  sprintCode: 'BE.S1',
-  title: 'Intro to Backend',
-  ...overrides,
-});
-
-const sprintMatcher = (overrides: Partial<Insertable<Sprints>> = {}) => ({
-  id: expect.any(Number),
-  ...overrides,
-  ...sprintFactory(overrides),
-});
 
 describe('POST', () => {
   it('should allow creating a new sprint', async () => {

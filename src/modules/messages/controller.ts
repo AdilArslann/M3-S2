@@ -68,7 +68,6 @@ export default (db: Database, discordClient: Client) => {
     )
     .get(
       jsonRoute(async (req) => {
-        
         const discordId =
           req.body.discordId !== undefined
             ? String(req.body.discordId)

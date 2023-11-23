@@ -4,7 +4,6 @@ import { selectAllFor } from '@tests/utils/records';
 import { templateFactory, templateMatcher } from './utils';
 import createApp from '@/app';
 
-
 const db = await createTestDatabase();
 const app = createApp(db);
 
@@ -13,7 +12,6 @@ const selectTemplates = selectAllFor(db, 'templates');
 afterEach(async () => {
   await db.deleteFrom('templates').execute();
 });
-
 
 describe('POST', () => {
   it('should allow creating a new template', async () => {

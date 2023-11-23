@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import 'dotenv/config';
-import  FetchGifError  from './fetchGifError';
+import FetchGifError from './fetchGifError';
 
 export default async function fetchRandomGif() {
   try {
@@ -10,6 +10,6 @@ export default async function fetchRandomGif() {
     const data = await response.json();
     return (data as any).data.images.original.url;
   } catch (error) {
-    throw new FetchGifError("There was an error fetching the gif.");
+    throw new FetchGifError('There was an error fetching the gif.');
   }
 }

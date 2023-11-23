@@ -1,9 +1,9 @@
-import buildUserRepository from "../users/repository";
-import buildSprintRepository from "../sprints/repository";
+import buildUserRepository from '../users/repository';
+import buildSprintRepository from '../sprints/repository';
 import type { Database } from '@/database';
-import BadRequest from "@/utils/errors/BadRequest";
+import BadRequest from '@/utils/errors/BadRequest';
 
-export async function findUser(db: Database, discordId: string){
+export async function findUser(db: Database, discordId: string) {
   const users = buildUserRepository(db);
   const user = await users.find(({ eb }) => eb('discordId', '=', discordId));
   if (user.length === 0) {
@@ -12,9 +12,11 @@ export async function findUser(db: Database, discordId: string){
   return user[0].id;
 }
 
-export async function findSprint(db: Database, sprintCode: string){
+export async function findSprint(db: Database, sprintCode: string) {
   const sprints = buildSprintRepository(db);
-  const sprint = await sprints.find(({ eb }) => eb('sprintCode', '=', sprintCode));
+  const sprint = await sprints.find(({ eb }) =>
+    eb('sprintCode', '=', sprintCode)
+  );
   if (sprint.length === 0) {
     throw new BadRequest(`Sprint with sprintCode ${sprintCode} does not exist`);
   }

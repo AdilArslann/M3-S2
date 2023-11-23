@@ -13,9 +13,11 @@ export const templateFactoryFull = (
 ): Insertable<Templates> => ({
   id: 1,
   ...templateFactory(overrides),
-})
+});
 
-export const templateMatcher = (overrides: Partial<Insertable<Templates>> = {}) => ({
+export const templateMatcher = (
+  overrides: Partial<Insertable<Templates>> = {}
+) => ({
   id: expect.any(Number),
   ...overrides,
   ...templateFactory(overrides),

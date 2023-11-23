@@ -4,8 +4,8 @@ import type { Sprints } from '@/database';
 type Record = Sprints;
 const schema = z.object({
   id: z.coerce.number().int().positive(),
-  sprintCode: z.string().min(1).max(32),
-  title: z.string().min(1).max(255),
+  sprintCode: z.string().min(2).max(32),
+  title: z.string().min(2).max(255),
 });
 
 const insertable = schema.omit({

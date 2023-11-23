@@ -4,7 +4,6 @@ import { selectAllFor } from '@tests/utils/records';
 import createApp from '@/app';
 import { userFactory, userMatcher } from './utils';
 
-
 // Creates a test database and passes it to the app
 const db = await createTestDatabase();
 const app = createApp(db);
