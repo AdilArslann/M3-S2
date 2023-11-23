@@ -29,7 +29,7 @@ npm run start
 If you make changes to the database schema, you will need to update the types. You can do this by running the following command:
 
 ```bash
-npm run generate-types
+npm run gen:types
 ```
 
 
