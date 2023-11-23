@@ -10,8 +10,8 @@ import buildUserRepository from '../users/repository';
 import buildSprintRepository from '../sprints/repository';
 import randomTemplate from './getRandomTemplate';
 import { findUser, findSprint } from './tools';
-import fetchGif from '../discordBot/fetchGif';
-import FetchGifError from '../discordBot/fetchGifError';
+import fetchGif from '../fetchGif/fetchGif';
+import FetchGifError from '../fetchGif/fetchGifError';
 import SendMessageError from '../discordBot/sendMessageError';
 import BadRequest from '@/utils/errors/BadRequest';
 
