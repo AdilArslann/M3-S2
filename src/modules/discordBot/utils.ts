@@ -16,7 +16,7 @@ export function getGuild(
 
 export function getChannel(
   guild: Guild,
-  channelName: string = 'accomplishments'
+  channelName: string = process.env.CHANNEL_NAME!
 ): TextChannel {
   const channel = guild.channels.cache.find(
     (channell) => channell.name === channelName
