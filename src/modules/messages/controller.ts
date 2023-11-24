@@ -41,7 +41,7 @@ export default (db: Database, discordClient: Client) => {
 
         try {
           const gifURL = await fetchGif();
-          sendMessage(
+          await sendMessage(
             discordClient,
             user.discordId,
             sprint.title,
