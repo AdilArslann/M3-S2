@@ -3,6 +3,7 @@ import type { Database } from '@/database';
 import buildRepository from './repository';
 import { TemplateNotFound } from './errors';
 import * as schema from './schema';
+import BadRequest from '@/utils/errors/BadRequest';
 
 export default (db: Database) => {
   const templates = buildRepository(db);
@@ -27,9 +28,9 @@ export default (db: Database) => {
       }
 
       await templates.remove(template.id);
-    } catch (error:any) {
+    } catch (error: any) {
       if (error.code === 'SQLITE_CONSTRAINT_FOREIGNKEY') {
-        throw new Error('This template is in use and cannot be deleted.');
+        throw new BadRequest('This template is in use and cannot be deleted.');
       }
       throw new Error('There was an error deleting the template.');
     }
@@ -51,6 +52,6 @@ export default (db: Database) => {
   return {
     getTemplateWithId,
     deleteTemplateWithId,
-    updateTemplateWithId
+    updateTemplateWithId,
   };
 };

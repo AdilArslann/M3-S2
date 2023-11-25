@@ -71,7 +71,6 @@ export default (db: Database, discordClient: Client) => {
     )
     .get(
       jsonRoute(async (req) => {
-
         if (req.query.sprintCode) {
           const sprintCode = String(req.query.sprintCode);
           const sprintId = await findSprint(db, sprintCode);

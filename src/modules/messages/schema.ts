@@ -5,7 +5,7 @@ type Record = Messages;
 const schema = z.object({
   id: z.coerce.number().int().positive(),
   userId: z.number().int().positive({
-    message: "cannot be negative number"
+    message: 'cannot be negative number',
   }),
   sprintId: z.number().int().positive(),
   templateId: z.number().int().positive(),
