@@ -5,6 +5,7 @@ import * as schema from './schema';
 import { jsonRoute, unsupportedRoute } from '@/utils/middleware';
 import type { Database } from '@/database';
 import { TemplateNotFound } from './errors';
+import {getTemplate} from './service';
 
 export default (db: Database) => {
   const router = Router();
@@ -25,14 +26,8 @@ export default (db: Database) => {
     .route('/:id')
     .get(
       jsonRoute(async (req) => {
-        const id = schema.parseId(req.params.id);
-        const template = await templates.findById(id);
-
-        if (!template) {
-          throw new TemplateNotFound();
-        }
-
-        return template;
+        const template = await getTemplate(db, req, templates);
+        return template
       })
     )
     .delete(

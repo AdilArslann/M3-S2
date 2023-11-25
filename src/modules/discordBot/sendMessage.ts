@@ -3,7 +3,6 @@ import { Client } from 'discord.js';
 import * as utils from '@/modules/discordBot/utils';
 import SendMessageError from './sendMessageError';
 
-
 export default async (
   discordClient: Client,
   discordId: string,
@@ -12,7 +11,6 @@ export default async (
   sprintCode: string,
   gifURL: string
 ) => {
-  
   try {
     const hideURL = getTextToHideUrl();
     const guild = utils.getGuild(discordClient);
@@ -24,7 +22,6 @@ ${gifURL}`);
     throw new SendMessageError('There was an error sending the message.');
   }
 };
-
 
 function getTextToHideUrl() {
   // sneaky way of hiding gif urls in discord, it's rather a bug but if it works it works
