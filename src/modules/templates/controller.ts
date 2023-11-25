@@ -4,19 +4,18 @@ import buildRepository from './repository';
 import * as schema from './schema';
 import { jsonRoute, unsupportedRoute } from '@/utils/middleware';
 import type { Database } from '@/database';
-import { TemplateNotFound } from './errors';
-import {getTemplate} from './service';
+import serviceFactory from './service';
 
 export default (db: Database) => {
   const router = Router();
   const templates = buildRepository(db);
+  const service = serviceFactory(db);
 
   router
     .route('/')
     .post(
       jsonRoute(async (req) => {
         const body = schema.parseInsertable(req.body);
-
         return templates.create(body);
       }, StatusCodes.CREATED)
     )
@@ -26,34 +25,20 @@ export default (db: Database) => {
     .route('/:id')
     .get(
       jsonRoute(async (req) => {
-        const template = await getTemplate(db, req, templates);
+        const template = await service.getTemplateWithId(req);
         return template
       })
     )
     .delete(
       jsonRoute(async (req) => {
-        const id = schema.parseId(req.params.id);
-        const template = await templates.findById(id);
-
-        if (!template) {
-          throw new TemplateNotFound();
-        }
-
-        await templates.remove(template.id);
+        const result = service.deleteTemplateWithId(req);
+        return result;
       })
     )
     .patch(
       jsonRoute(async (req) => {
-        const id = schema.parseId(req.params.id);
-        const template = await templates.findById(id);
-
-        if (!template) {
-          throw new TemplateNotFound();
-        }
-
-        const body = schema.parsePartial(req.body);
-
-        return templates.update(id, body);
+        const result = service.updateTemplateWithId(req);
+        return result;
       })
     )
     .put(unsupportedRoute);
