@@ -71,19 +71,9 @@ export default (db: Database, discordClient: Client) => {
     )
     .get(
       jsonRoute(async (req) => {
-        /*
-        const discordId =
-          req.query.discordId !== undefined
-            ? String(req.query.discordId)
-            : undefined;
-        */
-        const sprintCode =
-          req.query.sprintCode !== undefined
-            ? String(req.query.sprintCode)
-            : undefined;
 
-        if (sprintCode) {
-
+        if (req.query.sprintCode) {
+          const sprintCode = String(req.query.sprintCode);
           const sprintId = await findSprint(db, sprintCode);
           return messages.find(({ eb }) => eb('sprintId', '=', sprintId));
         }
