@@ -8,15 +8,13 @@ import { messageMatcher } from './utils';
 import { users, sprints, templates } from './fixtures';
 import sendMessage from '@/modules/discordBot/sendMessage';
 
+
 vi.mock('@/modules/discordBot/sendMessage');
 
 const db = await createTestDatabase();
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildMembers,
   ],
 });
 
