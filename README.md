@@ -173,6 +173,10 @@ Fetches messages.
 ### `GET /:id`, `DELETE /:id`, `PATCH /:id`, `PUT /:id`
 These routes are not supported.
 
+## Your bot's priviledged gateway intents
+The bot doesn't need any extra priviliges since it only sends message when you post a message.
+![image](https://github.com/TuringCollegeSubmissions/aarsla-BE.2.5/assets/82507565/d149f0b4-efca-45ea-a760-024b316c5fb8)
+
 
 ## Peer Programming
 [Peer programming link](https://github.com/AdilArslann/M3S2-PeerProgramming/tree/main)
