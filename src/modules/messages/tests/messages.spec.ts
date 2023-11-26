@@ -6,6 +6,7 @@ import { expect, vi } from 'vitest';
 import createApp from '@/app';
 import { messageMatcher } from './utils';
 import { users, sprints, templates } from './fixtures';
+import sendMessage from '@/modules/discordBot/sendMessage';
 
 vi.mock('@/modules/discordBot/sendMessage');
 
@@ -32,6 +33,31 @@ afterEach(async () => {
   await db.deleteFrom('sprints').execute();
   await db.deleteFrom('templates').execute();
 });
+
+describe('POST (discord)', () => {
+  it('should call sendMessage with the correct arguments', async () => {
+    const [user] = await createUsers(users);
+    const [sprint] = await createSprints(sprints);
+    const [template] = await createTemplates({content: 'test templateeee'});
+    const message = {
+      userId: user.id,
+      sprintId: sprint.id,
+      templateId: template.id,
+    };
+
+    await supertest(app).post('/messages').send(message).expect(201);
+
+    expect(sendMessage).toHaveBeenCalled();
+    expect(sendMessage).toHaveBeenCalledWith(
+      client,
+      user.discordId,
+      sprint.title,
+      template.content,
+      sprint.sprintCode,
+      expect.any(String)
+    );
+  });
+})
 
 describe('GET messages', () => {
   it('should return all messages', async () => {

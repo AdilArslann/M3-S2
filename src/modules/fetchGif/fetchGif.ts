@@ -8,7 +8,7 @@ export default async function fetchRandomGif() {
       `http://api.giphy.com/v1/gifs/random?api_key=${process.env.API_KEY}&tag=congrats`
     );
     const data = await response.json();
-    return (data as any).data.images.original.url;
+    return (data as any).data.url;
   } catch (error) {
     throw new FetchGifError('There was an error fetching the gif.');
   }
