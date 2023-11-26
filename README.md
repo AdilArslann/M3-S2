@@ -173,6 +173,11 @@ Fetches messages.
 ### `GET /:id`, `DELETE /:id`, `PATCH /:id`, `PUT /:id`
 These routes are not supported.
 
+## Test coverage report
+In average it is around 90 percent
+![image](https://github.com/TuringCollegeSubmissions/aarsla-BE.2.5/assets/82507565/d931c42f-b14f-4c34-beb8-2fcfebb87ce5)
+
+
 ## Your bot's priviledged gateway intents
 The bot doesn't need any extra priviliges since it only sends message when you post a message.
 ![image](https://github.com/TuringCollegeSubmissions/aarsla-BE.2.5/assets/82507565/d149f0b4-efca-45ea-a760-024b316c5fb8)
