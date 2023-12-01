@@ -40,9 +40,7 @@ describe('POST (discord)', () => {
     const message = {
       userId: user.id,
       sprintId: sprint.id,
-      templateId: template.id,
     };
-
     await supertest(app).post('/messages').send(message).expect(201);
 
     expect(sendMessage).toHaveBeenCalled();

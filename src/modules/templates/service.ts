@@ -1,3 +1,4 @@
+/*
 import type { Request } from 'express';
 import type { Database } from '@/database';
 import buildRepository from './repository';
@@ -28,7 +29,7 @@ export default (db: Database) => {
       }
 
       await templates.remove(template.id);
-    } catch (error: any) {
+    } catch (error:any) {
       if (error.code === 'SQLITE_CONSTRAINT_FOREIGNKEY') {
         throw new BadRequest('This template is in use and cannot be deleted.');
       }
@@ -52,6 +53,7 @@ export default (db: Database) => {
   return {
     getTemplateWithId,
     deleteTemplateWithId,
-    updateTemplateWithId,
+    updateTemplateWithId
   };
 };
+*/
