@@ -1,6 +1,6 @@
-## Setup
+# Overview 
 
-**Note:** For this exercise, we have provided an `.env` file with the database connection string. Normally, you would not commit this file to version control. We are doing it here for simplicity and given that we are using a local SQLite database.
+This project is a comprehensive sprint management system designed to facilitate collaboration and efficient sprint tracking. Integrated with Discord, it allows users to create, update, and manage sprints, templates, and messages directly through a web service. The system is particularly tailored for teams using Discord for communication, streamlining the process of managing sprints and associated activities. 
 
 ## Migrations
 
@@ -173,15 +173,20 @@ Fetches messages.
 ### `GET /:id`, `DELETE /:id`, `PATCH /:id`, `PUT /:id`
 These routes are not supported.
 
-## Test coverage report
-In average it is around 90 percent
-![image](https://github.com/TuringCollegeSubmissions/aarsla-BE.2.5/assets/82507565/d931c42f-b14f-4c34-beb8-2fcfebb87ce5)
-
 
 ## Your bot's priviledged gateway intents
 The bot doesn't need any extra priviliges since it only sends message when you post a message.
 ![image](https://github.com/TuringCollegeSubmissions/aarsla-BE.2.5/assets/82507565/d149f0b4-efca-45ea-a760-024b316c5fb8)
 
+## Environment Configuration
+For the successful operation of the sprint management system with Discord integration, certain environment variables need to be set. These variables are crucial for database connections, Discord integration, and utilizing external APIs like GIPHY. Here's a guide to understanding and setting up these environment variables in your .env file.
 
-## Peer Programming
-[Peer programming link](https://github.com/AdilArslann/M3S2-PeerProgramming/tree/main)
+- `DATABASE_URL`: This is the path to your SQLite database file.
+- `DISCORD_BOT_ID`: Your Discord bot's token.
+- `GUILD_ID`: The unique ID of your Discord server (also known as a guild).
+- `API_KEY`: Your GIPHY API key.
+- `CHANNEL_NAME`: The name of the Discord channel where the bot will send messages.
+
+## Test coverage report
+In average it is around 90 percent
+![image](https://github.com/AdilArslann/M3-S2/assets/82507565/620af329-c6e0-4910-84be-d38801a44650)
