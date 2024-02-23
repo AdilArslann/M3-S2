@@ -1,7 +1,7 @@
 import { Client } from 'discord.js';
 import * as utils from '@/modules/discordBot/utils';
 import SendMessageError from './sendMessageError';
-import  getTextToHideUrl  from './getTextToHideUrl';
+import getTextToHideUrl from './getTextToHideUrl';
 
 export default async (
   discordClient: Client,
@@ -19,10 +19,8 @@ export default async (
 ${template} ${hideURL}
 ${gifURL}`);
   } catch (error) {
-    throw new SendMessageError('There was an error sending the message.',{
-      cause: error
+    throw new SendMessageError('There was an error sending the message.', {
+      cause: error,
     });
   }
 };
-
-

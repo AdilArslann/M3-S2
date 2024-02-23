@@ -1,0 +1,28 @@
+name: Tests
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository (get repo)
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.12.1"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run all tests
+        run: npm run test
+        env:
+          API_KEY: ${{secrets.GIPHY_API_KEY}},

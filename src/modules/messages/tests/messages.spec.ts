@@ -8,14 +8,11 @@ import { messageMatcher } from './utils';
 import { users, sprints, templates } from './fixtures';
 import sendMessage from '@/modules/discordBot/sendMessage';
 
-
 vi.mock('@/modules/discordBot/sendMessage');
 
 const db = await createTestDatabase();
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-  ],
+  intents: [GatewayIntentBits.Guilds],
 });
 
 const app = createApp(db, client);
@@ -36,7 +33,7 @@ describe('POST (discord)', () => {
   it('should call sendMessage with the correct arguments', async () => {
     const [user] = await createUsers(users);
     const [sprint] = await createSprints(sprints);
-    const [template] = await createTemplates({content: 'test templateeee'});
+    const [template] = await createTemplates({ content: 'test templateeee' });
     const message = {
       userId: user.id,
       sprintId: sprint.id,
@@ -53,7 +50,7 @@ describe('POST (discord)', () => {
       expect.any(String)
     );
   });
-})
+});
 
 describe('GET messages', () => {
   it('should return all messages', async () => {
